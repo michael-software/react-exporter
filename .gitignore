@@ -1,3 +1,4 @@
 .idea/
 react-exporter.iml
 node_modules/
+build/
