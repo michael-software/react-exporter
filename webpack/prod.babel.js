@@ -1,12 +1,10 @@
-import {HotModuleReplacementPlugin, NoErrorsPlugin} from 'webpack';
+import {optimize, DefinePlugin} from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 
 export default {
     entry: [
-        'webpack/hot/dev-server',
-        'webpack-dev-server/client?http://0.0.0.0:8080',
-        path.join(__dirname, '..', 'src', 'example', 'index')
+        path.join(__dirname, '..', 'src', 'example', 'HelloWorld', 'Example.jsx')
     ],
     resolve: {
         extensions: ['', '.js', '.jsx']
@@ -15,15 +13,7 @@ export default {
         path: path.join(__dirname, '..', 'build'),
         filename: 'app.bundle.js'
     },
-    devtool: '#inline-source-map',
-    devServer: {
-        historyApiFallback: true,
-        host: '0.0.0.0',
-        port: 8080,
-        stats: {
-            colors: true
-        }
-    },
+    devtool: 'source-map',
     module: {
         loaders: [
             {
@@ -39,8 +29,12 @@ export default {
         ]
     },
     plugins: [
-        new HotModuleReplacementPlugin(),
-        new NoErrorsPlugin(),
+        new optimize.UglifyJsPlugin(),
+        new DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify("production")
+            }
+        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, '..', 'src', 'example', 'index.html'),
             filename: 'index.html'
