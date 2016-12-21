@@ -1,7 +1,10 @@
 import './Example.scss';
 import React from 'react';
 
+import exportReact from '../../ReactExporter.js';
 
+
+@exportReact('Example')
 export default class Example extends React.Component {
 
     render() {
